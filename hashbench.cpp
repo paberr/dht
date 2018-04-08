@@ -271,6 +271,28 @@ struct LookupAfterDeleteTest : GoodTest {
     }
 };
 
+// This test deletes and reinserts always the same value
+template <class Table>
+struct InsertAfterDeleteTest : GoodTest {
+    Table table;
+
+    void setup(size_t n) {
+        Key k = 1;
+        for (size_t i = 0; i < n; i++) {
+            table.set(k, k);
+            k = k + 1;
+        }
+    }
+
+    void run(size_t n) {
+        Key k = 1;
+        for (size_t i = 0; i < n; i++) {
+            table.remove(k);
+            table.set(k, k);
+        }
+    }
+};
+
 template <template <class> class Test>
 void run_speed_test()
 {
@@ -309,6 +331,8 @@ void run_one_speed_test(const char *name)
         run_speed_test<DeleteTest>();
     else if (strcmp(name, "LookupAfterDeleteTest") == 0)
         run_speed_test<LookupAfterDeleteTest>();
+    else if (strcmp(name, "InsertAfterDeleteTest") == 0)
+        run_speed_test<InsertAfterDeleteTest>();
     else {
         cerr << "No such test: " << name << endl;
         return;
@@ -346,6 +370,9 @@ void run_all_speed_tests()
 
     cout << "\"LookupAfterDeleteTest\": ";
     run_speed_test<LookupAfterDeleteTest>();
+
+    cout << "\"InsertAfterDeleteTest\": ";
+    run_speed_test<InsertAfterDeleteTest>();
 
     cout << "}" << endl;
 }

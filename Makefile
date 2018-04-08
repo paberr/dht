@@ -1,5 +1,5 @@
-CXX=g++-apple-4.2
-CXXFLAGS=-O3 -g -Isparsehash-install/include -DNDEBUG -DHAVE_GETTIMEOFDAY -DHAVE_SPARSEHASH
+CXX=g++
+CXXFLAGS=-O3 -g -DNDEBUG -DHAVE_GETTIMEOFDAY
 
 # To run plot.py, you need Python with matplotlib. Set the python executable to
 # use below.
@@ -44,10 +44,10 @@ hashbench-data.txt: hashbench
 hashbench: hashbench.o tables.o
 	$(CXX) -o $@ $^
 
-hashbench.o: hashbench.cpp tables.h sparsehash-install/include/sparsehash/dense_hash_map
+hashbench.o: hashbench.cpp tables.h
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
-tables.o: tables.cpp tables.h sparsehash-install/include/sparsehash/dense_hash_map
+tables.o: tables.cpp tables.h
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 sparsehash-sources/configure:
